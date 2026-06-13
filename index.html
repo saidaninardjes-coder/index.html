@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Birthday Invitation – Narcisse</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #F0D080;
+    --gold-shimmer: #FFE88A;
+    --black: #0A0A0A;
+    --cream: #F5EDD6;
+    --dark-brown: #5C1A1A;
+    --pearl: rgba(255,255,255,0.92);
+  }
+
+  html, body {
+    height: 100%;
+    background: var(--black);
+    overflow: hidden;
+    font-family: 'Cormorant Garamond', serif;
+    touch-action: none;
+  }
+
+  /* ── FLOATING HEARTS ── */
+  .hearts-bg {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .heart {
+    position: absolute;
+    bottom: -60px;
+    animation: floatHeart linear infinite;
+    opacity: 0;
+  }
+  .heart svg {
+    filter: drop-shadow(0 0 6px rgba(255,255,255,0.5));
+  }
+  @keyframes floatHeart {
+    0%   { transform: translateY(0) rotate(0deg) scale(1);   opacity: 0; }
+    10%  { opacity: 0.85; }
+    90%  { opacity: 0.6; }
+    100% { transform: translateY(-110vh) rotate(20deg) scale(1.1); opacity: 0; }
+  }
+
+  /* ── GOLD SPARKLES ── */
+  .sparkle {
+    position: absolute;
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--gold-shimmer);
+    box-shadow: 0 0 6px 2px var(--gold-shimmer);
+    animation: sparkleAnim ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes sparkleAnim {
+    0%, 100% { opacity: 0; transform: scale(0); }
+    50%       { opacity: 1; transform: scale(1); }
+  }
+
+  /* ── SCREENS ── */
+  .screen {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .screen.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.96);
+  }
+
+  /* ══════════════════════
+     SCREEN 1 – ENVELOPE
+  ══════════════════════ */
+  #screen-envelope {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .envelope-wrapper {
+    position: relative;
+    width: min(88vw, 380px);
+    aspect-ratio: 1 / 1.42;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+
+  /* card */
+  .env-card {
+    width: 100%;
+    height: 100%;
+    border-radius: 18px;
+    background: linear-gradient(160deg, #F7EED8 0%, #EFE3C0 60%, #E5D5A8 100%);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(201,168,76,0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 28px 20px 24px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* diagonal fold lines */
+  .env-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(135deg, rgba(200,180,130,0.3) 49.5%, transparent 50%),
+      linear-gradient(225deg, rgba(200,180,130,0.3) 49.5%, transparent 50%);
+    border-radius: inherit;
+    pointer-events: none;
+  }
+
+  .env-label {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(11px, 3vw, 14px);
+    letter-spacing: 0.35em;
+    color: var(--dark-brown);
+    text-transform: uppercase;
+  }
+
+  .env-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(46px, 14vw, 72px);
+    color: var(--dark-brown);
+    line-height: 0.95;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .env-heart-divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--dark-brown);
+    opacity: 0.7;
+    font-size: 12px;
+  }
+  .env-heart-divider::before,
+  .env-heart-divider::after {
+    content: '';
+    display: block;
+    width: 50px;
+    height: 1px;
+    background: var(--dark-brown);
+    opacity: 0.4;
+  }
+
+  /* plaid bow SVG */
+  .env-bow {
+    width: clamp(120px, 55%, 180px);
+    z-index: 2;
+    filter: drop-shadow(0 6px 12px rgba(80,0,0,0.35));
+    animation: bowPulse 3s ease-in-out infinite;
+    margin: -8px 0;
+  }
+  @keyframes bowPulse {
+    0%, 100% { transform: scale(1) rotate(-1deg); }
+    50%       { transform: scale(1.04) rotate(1deg); }
+  }
+
+  .env-cta {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(10px, 2.8vw, 13px);
+    letter-spacing: 0.3em;
+    color: var(--dark-brown);
+    text-transform: uppercase;
+    text-align: center;
+  }
+  .env-bottom-divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--dark-brown);
+    opacity: 0.6;
+    font-size: 11px;
+    margin-top: 4px;
+  }
+  .env-bottom-divider::before,
+  .env-bottom-divider::after {
+    content: '';
+    display: block;
+    width: 35px;
+    height: 1px;
+    background: var(--dark-brown);
+    opacity: 0.4;
+  }
+
+  /* wax seal */
+  .env-seal {
+    position: absolute;
+    bottom: 14px;
+    right: 14px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #8B1A1A, #5C0A0A);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.4), inset 0 1px 2px rgba(255,200,150,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .env-seal svg { width: 24px; height: 24px; }
+
+  /* ripple on tap */
+  .ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(201,168,76,0.25);
+    transform: scale(0);
+    animation: rippleOut 0.6s ease-out forwards;
+    pointer-events: none;
+  }
+  @keyframes rippleOut {
+    to { transform: scale(6); opacity: 0; }
+  }
+
+  /* ══════════════════════
+     SCREEN 2 – PIN CODE
+  ══════════════════════ */
+  #screen-pin {
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    padding: 20px;
+  }
+
+  .pin-card {
+    width: min(92vw, 420px);
+    background: linear-gradient(160deg, #0E0E0E 0%, #111 100%);
+    border: 1px solid rgba(201,168,76,0.35);
+    border-radius: 24px;
+    padding: 32px 24px 28px;
+    box-shadow:
+      0 0 0 1px rgba(201,168,76,0.1),
+      0 30px 80px rgba(0,0,0,0.8),
+      inset 0 1px 0 rgba(201,168,76,0.15);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* corner ornaments */
+  .pin-card::before, .pin-card::after {
+    content: '';
+    position: absolute;
+    width: 60px; height: 60px;
+    border-color: var(--gold);
+    border-style: solid;
+    opacity: 0.4;
+  }
+  .pin-card::before {
+    top: 12px; left: 12px;
+    border-width: 1px 0 0 1px;
+    border-radius: 6px 0 0 0;
+  }
+  .pin-card::after {
+    bottom: 12px; right: 12px;
+    border-width: 0 1px 1px 0;
+    border-radius: 0 0 6px 0;
+  }
+
+  /* gold corner ornaments right corners */
+  .pin-corner-tr, .pin-corner-bl {
+    position: absolute;
+    width: 60px; height: 60px;
+    border-color: var(--gold);
+    border-style: solid;
+    opacity: 0.4;
+  }
+  .pin-corner-tr { top: 12px; right: 12px; border-width: 1px 1px 0 0; border-radius: 0 6px 0 0; }
+  .pin-corner-bl { bottom: 12px; left: 12px; border-width: 0 0 1px 1px; border-radius: 0 0 0 6px; }
+
+  .pin-bow {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 12px;
+  }
+  .pin-bow svg {
+    width: 70px;
+    filter: drop-shadow(0 0 12px rgba(201,168,76,0.5));
+    animation: bowFloat 3s ease-in-out infinite;
+  }
+  @keyframes bowFloat {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-5px); }
+  }
+
+  .pin-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(11px, 3vw, 13px);
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-align: center;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .pin-subtitle {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(26px, 7vw, 34px);
+    color: var(--gold-light);
+    text-align: center;
+    line-height: 1;
+    margin-bottom: 24px;
+    text-shadow: 0 0 20px rgba(201,168,76,0.4);
+  }
+
+  /* dot display */
+  .pin-dots {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+  .pin-dot {
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    border: 2px solid rgba(201,168,76,0.5);
+    background: transparent;
+    transition: all 0.2s ease;
+  }
+  .pin-dot.filled {
+    background: var(--gold);
+    border-color: var(--gold);
+    box-shadow: 0 0 8px rgba(201,168,76,0.6);
+  }
+  .pin-dot.error {
+    border-color: #FF4444;
+    background: #FF4444;
+    animation: shake 0.4s ease;
+  }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-5px); }
+    40%, 80% { transform: translateX(5px); }
+  }
+
+  .pin-hint {
+    font-size: 11px;
+    color: rgba(201,168,76,0.4);
+    text-align: center;
+    letter-spacing: 0.1em;
+    margin-bottom: 20px;
+    min-height: 16px;
+    font-family: 'Cormorant Garamond', serif;
+  }
+  .pin-hint.error-msg { color: #FF4444; }
+
+  /* keypad */
+  .pin-keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .pin-key {
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.3);
+    background: rgba(201,168,76,0.04);
+    color: var(--gold-light);
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(18px, 5vw, 22px);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+    position: relative;
+    overflow: hidden;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+  .pin-key:active, .pin-key.pressed {
+    background: rgba(201,168,76,0.18);
+    border-color: var(--gold);
+    box-shadow: 0 0 15px rgba(201,168,76,0.3);
+    transform: scale(0.93);
+  }
+  .pin-key.special {
+    font-size: clamp(11px, 3vw, 14px);
+    letter-spacing: 0.05em;
+    color: rgba(201,168,76,0.6);
+  }
+  .pin-key.delete svg {
+    width: 20px; height: 20px;
+    stroke: var(--gold-light);
+  }
+  /* Empty slot */
+  .pin-key.empty {
+    border: none;
+    background: none;
+    cursor: default;
+    pointer-events: none;
+  }
+
+  /* ══════════════════════
+     SCREEN 3 – INVITATION
+  ══════════════════════ */
+  #screen-invite {
+    flex-direction: column;
+    padding: 16px;
+    overflow-y: auto;
+  }
+
+  .invite-card {
+    width: min(92vw, 420px);
+    background: #050505;
+    border: 1px solid rgba(201,168,76,0.4);
+    border-radius: 20px;
+    padding: 28px 22px;
+    box-shadow:
+      0 0 0 1px rgba(201,168,76,0.08),
+      0 40px 100px rgba(0,0,0,0.9),
+      inset 0 1px 0 rgba(201,168,76,0.2);
+    position: relative;
+    overflow: hidden;
+    animation: inviteReveal 0.8s cubic-bezier(0.34,1.56,0.64,1) both;
+  }
+  @keyframes inviteReveal {
+    from { opacity: 0; transform: scale(0.8) translateY(30px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* decorative gold frame lines */
+  .invite-frame {
+    position: absolute;
+    inset: 14px;
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 12px;
+    pointer-events: none;
+  }
+  .invite-frame::before, .invite-frame::after {
+    content: '◆';
+    position: absolute;
+    color: var(--gold);
+    font-size: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0.6;
+  }
+  .invite-frame::before { top: -6px; }
+  .invite-frame::after  { bottom: -6px; }
+
+  /* side ornaments */
+  .invite-corner-ornament {
+    position: absolute;
+    font-size: 8px;
+    color: rgba(201,168,76,0.5);
+    line-height: 1;
+  }
+  .invite-corner-ornament.tl { top: 6px; left: 6px; }
+  .invite-corner-ornament.tr { top: 6px; right: 6px; }
+  .invite-corner-ornament.bl { bottom: 6px; left: 6px; }
+  .invite-corner-ornament.br { bottom: 6px; right: 6px; }
+
+  .invite-bow {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 1;
+  }
+  .invite-bow svg {
+    width: 80px;
+    filter: drop-shadow(0 0 16px rgba(201,168,76,0.6));
+    animation: bowFloat 4s ease-in-out infinite;
+  }
+
+  .invite-eyebrow {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(9px, 2.5vw, 11px);
+    letter-spacing: 0.35em;
+    color: rgba(201,168,76,0.7);
+    text-align: center;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+
+  .invite-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(30px, 10vw, 46px);
+    font-weight: 700;
+    color: var(--gold-light);
+    text-align: center;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    line-height: 1;
+    text-shadow: 0 0 30px rgba(201,168,76,0.3);
+  }
+
+  .invite-script {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(36px, 12vw, 54px);
+    color: #fff;
+    text-align: center;
+    line-height: 0.9;
+    margin-bottom: 14px;
+    text-shadow: 0 0 20px rgba(255,255,255,0.15);
+  }
+
+  .invite-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(10px, 2.8vw, 13px);
+    letter-spacing: 0.18em;
+    color: rgba(255,255,255,0.55);
+    text-align: center;
+    text-transform: uppercase;
+    line-height: 1.8;
+    margin-bottom: 20px;
+  }
+  .invite-tagline span { color: var(--gold); }
+
+  .invite-divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .invite-divider::before, .invite-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(201,168,76,0.4), transparent);
+  }
+  .invite-divider span {
+    font-size: 10px;
+    color: rgba(201,168,76,0.5);
+  }
+
+  .invite-details {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .invite-detail-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .invite-icon {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background: rgba(201,168,76,0.06);
+  }
+  .invite-icon svg { width: 18px; height: 18px; stroke: var(--gold); fill: none; stroke-width: 1.5; }
+  .invite-detail-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    color: rgba(201,168,76,0.6);
+    text-transform: uppercase;
+    display: block;
+  }
+  .invite-detail-value {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(14px, 4vw, 18px);
+    color: var(--gold-light);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
+  .invite-message {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(15px, 4.5vw, 20px);
+    color: rgba(255,255,255,0.7);
+    text-align: center;
+    line-height: 1.7;
+    margin-bottom: 10px;
+  }
+
+  .invite-sig {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(22px, 6vw, 28px);
+    color: var(--gold-light);
+    text-align: center;
+    text-shadow: 0 0 15px rgba(201,168,76,0.4);
+  }
+
+  /* bottom bow right */
+  .invite-bow-br {
+    position: absolute;
+    bottom: -10px;
+    right: -10px;
+    opacity: 0.9;
+    pointer-events: none;
+  }
+  .invite-bow-br svg {
+    width: 90px;
+    filter: drop-shadow(0 0 12px rgba(201,168,76,0.5));
+    transform: rotate(-15deg);
+  }
+
+  /* pearl hearts scattered */
+  .pearl-heart {
+    position: absolute;
+    pointer-events: none;
+    animation: pearlFloat ease-in-out infinite;
+  }
+  @keyframes pearlFloat {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50%       { transform: translateY(-8px) scale(1.05); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── FLOATING HEARTS BG ── -->
+<div class="hearts-bg" id="hearts-bg"></div>
+
+<!-- ══════════════════════════
+     SCREEN 1: ENVELOPE
+══════════════════════════ -->
+<div class="screen" id="screen-envelope">
+  <div class="envelope-wrapper" id="envelope" onclick="openEnvelope(event)">
+    <div class="env-card">
+      <div class="env-label">Invitation</div>
+
+      <div>
+        <div class="env-heart-divider">♡</div>
+        <div class="env-title">Birthday</div>
+      </div>
+
+      <!-- PLAID BOW SVG -->
+      <svg class="env-bow" viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="plaid" patternUnits="userSpaceOnUse" width="16" height="16">
+            <rect width="16" height="16" fill="#8B1A1A"/>
+            <line x1="0" y1="0" x2="16" y2="16" stroke="#4A0E0E" stroke-width="2"/>
+            <line x1="16" y1="0" x2="0" y2="16" stroke="#4A0E0E" stroke-width="2"/>
+            <line x1="0" y1="8" x2="16" y2="8" stroke="#C8A020" stroke-width="0.8" opacity="0.5"/>
+            <line x1="8" y1="0" x2="8" y2="16" stroke="#1A5C1A" stroke-width="1" opacity="0.4"/>
+          </pattern>
+          <clipPath id="leftLoop"><ellipse cx="60" cy="62" rx="52" ry="38"/></clipPath>
+          <clipPath id="rightLoop"><ellipse cx="140" cy="62" rx="52" ry="38"/></clipPath>
+          <clipPath id="ltail"><polygon points="80,90 55,140 75,140 95,95"/></clipPath>
+          <clipPath id="rtail"><polygon points="120,90 145,140 125,140 105,95"/></clipPath>
+        </defs>
+        <!-- left loop -->
+        <ellipse cx="60" cy="62" rx="52" ry="38" fill="url(#plaid)" clip-path="url(#leftLoop)"/>
+        <ellipse cx="60" cy="62" rx="52" ry="38" fill="none" stroke="#3A0808" stroke-width="1.5"/>
+        <!-- right loop -->
+        <ellipse cx="140" cy="62" rx="52" ry="38" fill="url(#plaid)" clip-path="url(#rightLoop)"/>
+        <ellipse cx="140" cy="62" rx="52" ry="38" fill="none" stroke="#3A0808" stroke-width="1.5"/>
+        <!-- left tail -->
+        <polygon points="80,90 55,140 75,140 95,95" fill="url(#plaid)" clip-path="url(#ltail)"/>
+        <polygon points="80,90 55,140 75,140 95,95" fill="none" stroke="#3A0808" stroke-width="1.5"/>
+        <!-- right tail -->
+        <polygon points="120,90 145,140 125,140 105,95" fill="url(#plaid)" clip-path="url(#rtail)"/>
+        <polygon points="120,90 145,140 125,140 105,95" fill="none" stroke="#3A0808" stroke-width="1.5"/>
+        <!-- knot -->
+        <ellipse cx="100" cy="74" rx="16" ry="12" fill="#6B0F0F" stroke="#3A0808" stroke-width="1.5"/>
+        <ellipse cx="100" cy="74" rx="8" ry="6" fill="#8B1A1A"/>
+        <!-- sheen highlights -->
+        <ellipse cx="50" cy="52" rx="20" ry="10" fill="rgba(255,200,180,0.1)" transform="rotate(-20,50,52)"/>
+        <ellipse cx="150" cy="52" rx="20" ry="10" fill="rgba(255,200,180,0.1)" transform="rotate(20,150,52)"/>
+      </svg>
+
+      <div>
+        <div class="env-cta">Click on me</div>
+        <div class="env-bottom-divider">♡</div>
+      </div>
+
+      <!-- wax seal -->
+      <div class="env-seal">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L14.5 9H22L16 13.5L18.5 20.5L12 16L5.5 20.5L8 13.5L2 9H9.5L12 2Z" fill="#C9A84C" opacity="0.9"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════
+     SCREEN 2: PIN CODE
+══════════════════════════ -->
+<div class="screen hidden" id="screen-pin">
+  <div class="pin-card">
+    <div class="pin-corner-tr"></div>
+    <div class="pin-corner-bl"></div>
+
+    <!-- Gold bow -->
+    <div class="pin-bow">
+      <svg viewBox="0 0 160 110" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="gBow" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%"  stop-color="#F0D080"/>
+            <stop offset="40%" stop-color="#C9A84C"/>
+            <stop offset="70%" stop-color="#A07828"/>
+            <stop offset="100%" stop-color="#C9A84C"/>
+          </linearGradient>
+          <radialGradient id="gKnot" cx="40%" cy="35%">
+            <stop offset="0%" stop-color="#FFE88A"/>
+            <stop offset="100%" stop-color="#8A5A10"/>
+          </radialGradient>
+        </defs>
+        <ellipse cx="48" cy="48" rx="42" ry="30" fill="url(#gBow)" transform="rotate(-10,48,48)"/>
+        <ellipse cx="112" cy="48" rx="42" ry="30" fill="url(#gBow)" transform="rotate(10,112,48)"/>
+        <polygon points="65,70 44,108 60,108 76,74" fill="url(#gBow)"/>
+        <polygon points="95,70 116,108 100,108 84,74" fill="url(#gBow)"/>
+        <circle cx="80" cy="58" r="13" fill="url(#gKnot)" stroke="#8A5A10" stroke-width="1"/>
+        <ellipse cx="40" cy="38" rx="15" ry="8" fill="rgba(255,240,160,0.35)" transform="rotate(-15,40,38)"/>
+        <ellipse cx="118" cy="38" rx="15" ry="8" fill="rgba(255,240,160,0.35)" transform="rotate(15,118,38)"/>
+      </svg>
+    </div>
+
+    <!-- pearl hearts scattered in pin card -->
+    <svg class="pearl-heart" style="width:28px;top:20px;left:18px;animation-duration:3.2s;animation-delay:0s" viewBox="0 0 30 28"><defs><radialGradient id="ph1" cx="35%" cy="30%"><stop offset="0%" stop-color="#fff"/><stop offset="60%" stop-color="#e8e8f0"/><stop offset="100%" stop-color="#b0b0c8"/></radialGradient></defs><path d="M15 24S2 16 2 8a6 6 0 0 1 13-1 6 6 0 0 1 13 1c0 8-13 16-13 16z" fill="url(#ph1)"/></svg>
+    <svg class="pearl-heart" style="width:22px;top:18px;right:20px;animation-duration:4s;animation-delay:1s" viewBox="0 0 30 28"><defs><radialGradient id="ph2" cx="35%" cy="30%"><stop offset="0%" stop-color="#fff"/><stop offset="60%" stop-color="#e8e8f0"/><stop offset="100%" stop-color="#b0b0c8"/></radialGradient></defs><path d="M15 24S2 16 2 8a6 6 0 0 1 13-1 6 6 0 0 1 13 1c0 8-13 16-13 16z" fill="url(#ph2)"/></svg>
+    <svg class="pearl-heart" style="width:18px;bottom:100px;left:14px;animation-duration:3.8s;animation-delay:0.5s" viewBox="0 0 30 28"><defs><radialGradient id="ph3" cx="35%" cy="30%"><stop offset="0%" stop-color="#fff"/><stop offset="60%" stop-color="#e8e8f0"/><stop offset="100%" stop-color="#b0b0c8"/></radialGradient></defs><path d="M15 24S2 16 2 8a6 6 0 0 1 13-1 6 6 0 0 1 13 1c0 8-13 16-13 16z" fill="url(#ph3)"/></svg>
+
+    <div class="pin-title">Secret Code</div>
+    <div class="pin-subtitle">Enter your code</div>
+
+    <!-- dot display -->
+    <div class="pin-dots" id="pin-dots">
+      <div class="pin-dot" id="dot-0"></div>
+      <div class="pin-dot" id="dot-1"></div>
+      <div class="pin-dot" id="dot-2"></div>
+      <div class="pin-dot" id="dot-3"></div>
+      <div class="pin-dot" id="dot-4"></div>
+      <div class="pin-dot" id="dot-5"></div>
+      <div class="pin-dot" id="dot-6"></div>
+      <div class="pin-dot" id="dot-7"></div>
+    </div>
+
+    <div class="pin-hint" id="pin-hint">✦ &nbsp; ✦ &nbsp; ✦</div>
+
+    <!-- keypad -->
+    <div class="pin-keypad">
+      <div class="pin-key" onclick="pinKey('1')">1</div>
+      <div class="pin-key" onclick="pinKey('2')">2</div>
+      <div class="pin-key" onclick="pinKey('3')">3</div>
+      <div class="pin-key" onclick="pinKey('4')">4</div>
+      <div class="pin-key" onclick="pinKey('5')">5</div>
+      <div class="pin-key" onclick="pinKey('6')">6</div>
+      <div class="pin-key" onclick="pinKey('7')">7</div>
+      <div class="pin-key" onclick="pinKey('8')">8</div>
+      <div class="pin-key" onclick="pinKey('9')">9</div>
+      <div class="pin-key empty"></div>
+      <div class="pin-key" onclick="pinKey('0')">0</div>
+      <div class="pin-key delete" onclick="pinDelete()">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"/>
+          <line x1="18" y1="9" x2="12" y2="15"/>
+          <line x1="12" y1="9" x2="18" y2="15"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════
+     SCREEN 3: INVITATION
+══════════════════════════ -->
+<div class="screen hidden" id="screen-invite">
+  <div class="invite-card">
+    <div class="invite-frame"></div>
+    <div class="invite-corner-ornament tl">✦</div>
+    <div class="invite-corner-ornament tr">✦</div>
+    <div class="invite-corner-ornament bl">✦</div>
+    <div class="invite-corner-ornament br">✦</div>
+
+    <!-- Pearl hearts -->
+    <svg class="pearl-heart" style="width:36px;top:30px;left:10px;animation-duration:3.5s" viewBox="0 0 30 28"><defs><radialGradient id="pha" cx="35%" cy="30%"><stop offset="0%" stop-color="#fff"/><stop offset="60%" stop-color="#e8e8f0"/><stop offset="100%" stop-color="#b0b0c8"/></radialGradient></defs><path d="M15 24S2 16 2 8a6 6 0 0 1 13-1 6 6 0 0 1 13 1c0 8-13 16-13 16z" fill="url(#pha)"/></svg>
+    <svg class="pearl-heart" style="width:30px;top:28px;right:12px;animation-duration:4.2s;animation-delay:0.8s" viewBox="0 0 30 28"><defs><radialGradient id="phb" cx="35%" cy="30%"><stop offset="0%" stop-color="#fff"/><stop offset="60%" stop-color="#e8e8f0"/><stop offset="100%" stop-color="#b0b0c8"/></radialGradient></defs><path d="M15 24S2 16 2 8a6 6 0 0 1 13-1 6 6 0 0 1 13 1c0 8-13 16-13 16z" fill="url(#phb)"/></svg>
+    <svg class="pearl-heart" style="width:26px;bottom:120px;left:8px;animation-duration:3s;animation-delay:1.2s" viewBox="0 0 30 28"><defs><radialGradient id="phc" cx="35%" cy="30%"><stop offset="0%" stop-color="#fff"/><stop offset="60%" stop-color="#e8e8f0"/><stop offset="100%" stop-color="#b0b0c8"/></radialGradient></defs><path d="M15 24S2 16 2 8a6 6 0 0 1 13-1 6 6 0 0 1 13 1c0 8-13 16-13 16z" fill="url(#phc)"/></svg>
+    <svg class="pearl-heart" style="width:22px;bottom:180px;right:8px;animation-duration:4.5s;animation-delay:0.3s" viewBox="0 0 30 28"><defs><radialGradient id="phd" cx="35%" cy="30%"><stop offset="0%" stop-color="#fff"/><stop offset="60%" stop-color="#e8e8f0"/><stop offset="100%" stop-color="#b0b0c8"/></radialGradient></defs><path d="M15 24S2 16 2 8a6 6 0 0 1 13-1 6 6 0 0 1 13 1c0 8-13 16-13 16z" fill="url(#phd)"/></svg>
+
+    <div class="invite-bow">
+      <svg viewBox="0 0 160 110" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="gBow2" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%"  stop-color="#F0D080"/>
+            <stop offset="40%" stop-color="#C9A84C"/>
+            <stop offset="70%" stop-color="#A07828"/>
+            <stop offset="100%" stop-color="#C9A84C"/>
+          </linearGradient>
+          <radialGradient id="gKnot2" cx="40%" cy="35%">
+            <stop offset="0%" stop-color="#FFE88A"/>
+            <stop offset="100%" stop-color="#8A5A10"/>
+          </radialGradient>
+        </defs>
+        <ellipse cx="48" cy="48" rx="42" ry="30" fill="url(#gBow2)" transform="rotate(-10,48,48)"/>
+        <ellipse cx="112" cy="48" rx="42" ry="30" fill="url(#gBow2)" transform="rotate(10,112,48)"/>
+        <polygon points="65,70 44,108 60,108 76,74" fill="url(#gBow2)"/>
+        <polygon points="95,70 116,108 100,108 84,74" fill="url(#gBow2)"/>
+        <circle cx="80" cy="58" r="13" fill="url(#gKnot2)" stroke="#8A5A10" stroke-width="1"/>
+        <ellipse cx="40" cy="38" rx="15" ry="8" fill="rgba(255,240,160,0.35)" transform="rotate(-15,40,38)"/>
+        <ellipse cx="118" cy="38" rx="15" ry="8" fill="rgba(255,240,160,0.35)" transform="rotate(15,118,38)"/>
+      </svg>
+    </div>
+
+    <div class="invite-eyebrow">You are invited to my</div>
+    <div class="invite-heading">Birthday</div>
+    <div class="invite-script">Party</div>
+
+    <div class="invite-tagline">
+      Let's celebrate a special night<br>
+      filled with love, laughter<br>
+      and magic <span>♥</span>
+    </div>
+
+    <div class="invite-divider"><span>✦</span></div>
+
+    <div class="invite-details">
+      <div class="invite-detail-row">
+        <div class="invite-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M12 14h.01M12 17h.01" stroke-linecap="round"/></svg>
+        </div>
+        <div>
+          <span class="invite-detail-label">Date</span>
+          <span class="invite-detail-value">14 / 06 / 2026</span>
+        </div>
+      </div>
+
+      <div class="invite-detail-row">
+        <div class="invite-icon">
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div>
+          <span class="invite-detail-label">Venue</span>
+          <span class="invite-detail-value">Maison Aifas</span>
+        </div>
+      </div>
+
+      <div class="invite-detail-row">
+        <div class="invite-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div>
+          <span class="invite-detail-label">Time</span>
+          <span class="invite-detail-value">19H00</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="invite-divider"><span>♡</span></div>
+
+    <div class="invite-message">
+      I can't wait to celebrate<br>with you!<br>
+      See you there !
+    </div>
+    <div class="invite-sig">Narcisse ♡</div>
+
+    <!-- Bottom-right large bow -->
+    <div class="invite-bow-br">
+      <svg viewBox="0 0 160 130" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="gBow3" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%"  stop-color="#F0D080"/>
+            <stop offset="40%" stop-color="#C9A84C"/>
+            <stop offset="70%" stop-color="#A07828"/>
+            <stop offset="100%" stop-color="#C9A84C"/>
+          </linearGradient>
+          <radialGradient id="gKnot3" cx="40%" cy="35%">
+            <stop offset="0%" stop-color="#FFE88A"/>
+            <stop offset="100%" stop-color="#8A5A10"/>
+          </radialGradient>
+        </defs>
+        <ellipse cx="48" cy="48" rx="42" ry="30" fill="url(#gBow3)" transform="rotate(-10,48,48)"/>
+        <ellipse cx="112" cy="48" rx="42" ry="30" fill="url(#gBow3)" transform="rotate(10,112,48)"/>
+        <polygon points="65,70 44,108 60,108 76,74" fill="url(#gBow3)"/>
+        <polygon points="95,70 116,108 100,108 84,74" fill="url(#gBow3)"/>
+        <circle cx="80" cy="58" r="13" fill="url(#gKnot3)" stroke="#8A5A10" stroke-width="1"/>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── HEARTS & SPARKLES ──
+  const heartsBg = document.getElementById('hearts-bg');
+
+  function makeHeart() {
+    const h = document.createElementNS('http://www.w3.org/2000/svg','svg');
+    const size = 14 + Math.random()*22;
+    h.setAttribute('viewBox','0 0 30 28');
+    h.setAttribute('width', size);
+    h.setAttribute('height', size * 0.93);
+    const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+    path.setAttribute('d','M15 24S2 16 2 8a6 6 0 0 1 13-1 6 6 0 0 1 13 1c0 8-13 16-13 16z');
+    const gId = 'hg'+Math.random().toString(36).slice(2);
+    h.innerHTML = `<defs><radialGradient id="${gId}" cx="35%" cy="30%"><stop offset="0%" stop-color="#fff"/><stop offset="60%" stop-color="#e0e0ee"/><stop offset="100%" stop-color="#a8a8c0"/></radialGradient></defs>`;
+    path.setAttribute('fill', `url(#${gId})`);
+    h.appendChild(path);
+    const wrapper = document.createElement('div');
+    wrapper.classList.add('heart');
+    wrapper.appendChild(h);
+    wrapper.style.left = Math.random()*100+'%';
+    const dur = 7 + Math.random()*8;
+    wrapper.style.animationDuration = dur+'s';
+    wrapper.style.animationDelay = (Math.random()*dur)+'s';
+    heartsBg.appendChild(wrapper);
+    setTimeout(()=>wrapper.remove(), (dur+dur)*1000);
+  }
+  setInterval(makeHeart, 700);
+  for(let i=0;i<5;i++) setTimeout(makeHeart, i*200);
+
+  function makeSparkle() {
+    const s = document.createElement('div');
+    s.classList.add('sparkle');
+    s.style.left = Math.random()*100+'%';
+    s.style.top  = Math.random()*100+'%';
+    const dur = 1.5 + Math.random()*2;
+    s.style.animationDuration = dur+'s';
+    s.style.animationDelay = (Math.random()*dur)+'s';
+    const sz = 2 + Math.random()*4;
+    s.style.width = sz+'px'; s.style.height = sz+'px';
+    heartsBg.appendChild(s);
+    setTimeout(()=>s.remove(), (dur*2)*1000);
+  }
+  setInterval(makeSparkle, 300);
+  for(let i=0;i<15;i++) setTimeout(makeSparkle, i*80);
+
+  // ── ENVELOPE OPEN ──
+  function openEnvelope(e) {
+    const env = document.getElementById('envelope');
+    // ripple
+    const rect = env.getBoundingClientRect();
+    const r = document.createElement('div');
+    r.classList.add('ripple');
+    const x = (e.clientX||e.touches?.[0]?.clientX||rect.left+rect.width/2) - rect.left;
+    const y = (e.clientY||e.touches?.[0]?.clientY||rect.top+rect.height/2) - rect.top;
+    r.style.left = x+'px'; r.style.top = y+'px';
+    r.style.width = r.style.height = '40px';
+    r.style.marginLeft = '-20px'; r.style.marginTop = '-20px';
+    env.querySelector('.env-card').appendChild(r);
+    setTimeout(()=>r.remove(), 700);
+
+    env.style.transition = 'transform 0.5s cubic-bezier(0.34,1.56,0.64,1), opacity 0.4s ease';
+    env.style.transform = 'scale(1.08) rotate(2deg)';
+    env.style.opacity = '0';
+    setTimeout(()=>{
+      switchScreen('screen-envelope','screen-pin');
+    }, 400);
+  }
+
+  // ── PIN CODE ──
+  const SECRET = '14062005';
+  let entered = '';
+
+  function updateDots() {
+    for(let i=0;i<8;i++){
+      const d = document.getElementById('dot-'+i);
+      d.classList.remove('filled','error');
+      if(i < entered.length) d.classList.add('filled');
+    }
+  }
+
+  function pinKey(n) {
+    if(entered.length >= 8) return;
+    entered += n;
+    updateDots();
+    // animate key press
+    const keys = document.querySelectorAll('.pin-key');
+    keys.forEach(k => {
+      if(k.textContent.trim() === n) {
+        k.classList.add('pressed');
+        setTimeout(()=>k.classList.remove('pressed'),150);
+      }
+    });
+    if(entered.length === 8) {
+      setTimeout(checkPin, 250);
+    }
+  }
+
+  function pinDelete() {
+    if(!entered.length) return;
+    entered = entered.slice(0,-1);
+    updateDots();
+    document.getElementById('pin-hint').textContent = '✦ \u00a0 ✦ \u00a0 ✦';
+    document.getElementById('pin-hint').classList.remove('error-msg');
+  }
+
+  function checkPin() {
+    if(entered === SECRET) {
+      document.getElementById('pin-hint').textContent = '✓  Code correct !';
+      document.getElementById('pin-hint').style.color = '#C9A84C';
+      setTimeout(()=>switchScreen('screen-pin','screen-invite'), 600);
+    } else {
+      const dots = document.querySelectorAll('.pin-dot');
+      dots.forEach(d=>{ d.classList.remove('filled'); d.classList.add('error'); });
+      document.getElementById('pin-hint').textContent = '✗  Code incorrect, réessayez';
+      document.getElementById('pin-hint').classList.add('error-msg');
+      setTimeout(()=>{
+        dots.forEach(d=>d.classList.remove('error'));
+        entered = '';
+        updateDots();
+        document.getElementById('pin-hint').textContent = '✦ \u00a0 ✦ \u00a0 ✦';
+        document.getElementById('pin-hint').classList.remove('error-msg');
+      }, 900);
+    }
+  }
+
+  // ── SCREEN SWITCH ──
+  function switchScreen(from, to) {
+    document.getElementById(from).classList.add('hidden');
+    document.getElementById(to).classList.remove('hidden');
+  }
+</script>
+</body>
+</html>
